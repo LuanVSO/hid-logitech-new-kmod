@@ -47,11 +47,6 @@ kmodtool  --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?build
 
 %setup -q -c -T -a 0
 
-# apply patches and do other stuff here
-# pushd foo-%{version}
-# #patch0 -p1 -b .suffix
-# popd
-
 for kernel_version in %{?kernel_versions} ; do
     cp -a %{projname}-%{version} _kmod_build_${kernel_version%%___*}
 done
@@ -64,14 +59,11 @@ done
 
 
 %install
-#rm -rf ${RPM_BUILD_ROOT}
 
 for kernel_version in %{?kernel_versions}; do
     mkdir -p %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
     install -D -m 755 _kmod_build_${kernel_version%%___*}/%{module}.ko %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
     chmod a+x %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/*.ko
-    #make install DESTDIR=${RPM_BUILD_ROOT} KMODPATH=%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}
-    # install -D -m 755 _kmod_build_${kernel_version%%___*}/foo/foo.ko  ${RPM_BUILD_ROOT}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/foo.ko
 done
 %{?akmod_install}
 
