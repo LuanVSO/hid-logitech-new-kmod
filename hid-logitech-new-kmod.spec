@@ -10,7 +10,7 @@
 Name:          %{module}-kmod
 
 Version:        0.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Improved module driver for Logitech driving wheels
 Epoch:          0
 Group:          System Environment/Kernel
@@ -104,6 +104,13 @@ Summary: License and documentation for %{module}-kmod
 %description common
 License and documentation for %{module}-kmod
 %changelog
+* Wed Jul 16 2025 Luan Vitor Simião oliveira <luanv.oliveira@outlook.com> 0.5.0-4
+- general improvments to spec file (luanv.oliveira@outlook.com)
+- include license and readme on package (luanv.oliveira@outlook.com)
+- fix punctuation and white space fixes (luanv.oliveira@outlook.com)
+- remove clean section (luanv.oliveira@outlook.com)
+- fix: license information (luanv.oliveira@outlook.com)
+
 * Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0-2
 - merge hid-logitech-new-common into main spec file
 
