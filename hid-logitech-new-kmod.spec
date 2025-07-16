@@ -67,10 +67,6 @@ for kernel_version in %{?kernel_versions}; do
 done
 %{?akmod_install}
 
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %package common
 Summary: dummy package dependecy for akmod-new-lg4ff
 %description common
