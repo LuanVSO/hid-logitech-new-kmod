@@ -10,7 +10,7 @@
 Name:          %{module}-kmod
 
 Version:        0.5.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Improved module driver for Logitech driving wheels.
 Epoch:          0
 Group:          System Environment/Kernel
