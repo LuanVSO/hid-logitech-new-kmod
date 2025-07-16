@@ -10,7 +10,7 @@
 Name:          %{module}-kmod
 
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Improved module driver for Logitech driving wheels.
 Epoch:          0
 Group:          System Environment/Kernel
@@ -87,5 +87,8 @@ akmod scrips requires a package with this name for userland components, but this
 
 
 %changelog
+* Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0-2
+- merge hid-logitech-new-common into main spec file
+
 * Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0
 - Initial spec with akmod for 0.5.0
