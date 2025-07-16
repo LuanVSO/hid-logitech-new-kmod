@@ -1,26 +1,27 @@
 # (un)define the next line to either build for the newest or all current kernels
 #define buildforkernels newest
 #define buildforkernels current
-%define buildforkernels akmod
-%define module new-lg4ff
+%global buildforkernels akmod
+%define module hid-logitech-new
+%global projname new-lg4ff
 %global debug_package %{nil}
 
 # name should have a -kmod suffix
 Name:          %{module}-kmod
 
 Version:        0.5.0
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Improved module driver for Logitech driving wheels.
 Epoch:          0
 Group:          System Environment/Kernel
 
 License:        GPLv3
 URL:            https://github.com/berarma/new-lg4ff
-Source0:        %{url}/archive/v%{version}/%{module}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{projname}-%{version}.tar.gz
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+#BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  %{_bindir}/kmodtool, gcc
+BuildRequires: kmodtool, gcc
 
 
 # Verify that the package build for all architectures.
@@ -31,12 +32,10 @@ BuildRequires:  %{_bindir}/kmodtool, gcc
 
 # get the proper build-sysbuild package from the repo, which
 # tracks in all the kernel-devel packages
-BuildRequires:  %{_bindir}/kmodtool
-
 #{!?kernels:BuildRequires: buildsys-build-rpmfusion-kerneldevpkgs-%{?buildforkernels:%{buildforkernels}}%{!?buildforkernels:current}-%{_target_cpu} }
 BuildRequires: kernel-devel, gcc, make
 # kmodtool does its magic here
-%{expand:%(kmodtool --target %{_target_cpu} --repo %{repo} --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
+%{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
 
 %description
@@ -47,7 +46,7 @@ Improved module driver for Logitech driving wheels.
 %{?kmodtool_check}
 
 # print kmodtool output for debugging purposes:
-kmodtool  --target %{_target_cpu}  --repo %{repo} --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
+kmodtool  --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
 
 %setup -q -c -T -a 0
 
@@ -57,21 +56,24 @@ kmodtool  --target %{_target_cpu}  --repo %{repo} --kmodname %{name} %{?buildfor
 # popd
 
 for kernel_version in %{?kernel_versions} ; do
-    cp -a %{module}-%{version} _kmod_build_${kernel_version%%___*}
+    cp -a %{projname}-%{version} _kmod_build_${kernel_version%%___*}
 done
 
 
 %build
-for kernel_version in %{?kernel_versions}; do
-    make %{?_smp_mflags} -C "${kernel_version##*___}" SUBDIRS=${PWD}/_kmod_build_${kernel_version%%___*} modules
+for kernel_version  in %{?kernel_versions} ; do
+    make V=1 %{?_smp_mflags} -C ${kernel_version##*___} M=${PWD}/_kmod_build_${kernel_version%%___*} modules
 done
 
 
 %install
-rm -rf ${RPM_BUILD_ROOT}
+#rm -rf ${RPM_BUILD_ROOT}
 
 for kernel_version in %{?kernel_versions}; do
-    make install DESTDIR=${RPM_BUILD_ROOT} KMODPATH=%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}
+    mkdir -p %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
+    install -D -m 755 _kmod_build_${kernel_version%%___*}/%{module}.ko %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
+    chmod a+x %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/*.ko
+    #make install DESTDIR=${RPM_BUILD_ROOT} KMODPATH=%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}
     # install -D -m 755 _kmod_build_${kernel_version%%___*}/foo/foo.ko  ${RPM_BUILD_ROOT}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/foo.ko
 done
 %{?akmod_install}
