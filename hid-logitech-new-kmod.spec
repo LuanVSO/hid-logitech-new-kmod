@@ -2,7 +2,7 @@
 #define buildforkernels newest
 #define buildforkernels current
 %global buildforkernels akmod
-%define module hid-logitech-new
+%global module hid-logitech-new
 %global projname new-lg4ff
 %global debug_package %{nil}
 
@@ -69,7 +69,8 @@ Summary: dummy package dependecy for akmod-new-lg4ff
 %description common
 akmod scrips requires a package with this name for userland components, but this module doesn't have any
 %files common
-
+%doc %{projname}-%{version}/README.md
+%license %{projname}-%{version}/LICENSE
 %changelog
 * Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0-2
 - merge hid-logitech-new-common into main spec file
