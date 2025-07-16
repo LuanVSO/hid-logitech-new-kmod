@@ -20,7 +20,7 @@ URL:            https://github.com/berarma/new-lg4ff
 Source0:        %{url}/archive/v%{version}/%{projname}-%{version}.tar.gz
 
 BuildRequires: kmodtool, gcc
-
+Requires: akmods
 
 # Verify that the package build for all architectures.
 # In most time you should remove the Exclusive/ExcludeArch directives
