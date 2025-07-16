@@ -19,8 +19,6 @@ License:        GPLv3
 URL:            https://github.com/berarma/new-lg4ff
 Source0:        %{url}/archive/v%{version}/%{projname}-%{version}.tar.gz
 
-#BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
 BuildRequires: kmodtool, gcc
 
 
@@ -32,7 +30,6 @@ BuildRequires: kmodtool, gcc
 
 # get the proper build-sysbuild package from the repo, which
 # tracks in all the kernel-devel packages
-#{!?kernels:BuildRequires: buildsys-build-rpmfusion-kerneldevpkgs-%{?buildforkernels:%{buildforkernels}}%{!?buildforkernels:current}-%{_target_cpu} }
 BuildRequires: kernel-devel, gcc, make
 # kmodtool does its magic here
 %{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
