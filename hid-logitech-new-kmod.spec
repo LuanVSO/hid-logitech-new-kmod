@@ -1,6 +1,6 @@
 # (un)define the next line to either build for the newest or all current kernels
-#define buildforkernels newest
-#define buildforkernels current
+#global buildforkernels newest
+#global buildforkernels current
 %global buildforkernels akmod
 %global module hid-logitech-new
 %global projname new-lg4ff
@@ -11,7 +11,7 @@ Name:          %{module}-kmod
 
 Version:        0.5.0
 Release:        3%{?dist}
-Summary:        Improved module driver for Logitech driving wheels.
+Summary:        Improved module driver for Logitech driving wheels
 Epoch:          0
 Group:          System Environment/Kernel
 
@@ -21,21 +21,52 @@ Source0:        %{url}/archive/v%{version}/%{projname}-%{version}.tar.gz
 
 BuildRequires: kmodtool, gcc
 Requires: akmods
-
+Provides: %{projname}
+Obsoletes: %{projname} < 0.5.0
 # Verify that the package build for all architectures.
 # In most time you should remove the Exclusive/ExcludeArch directives
 # and fix the code (if needed).
 # ExclusiveArch:  i686 x86_64 ppc64 ppc64le armv7hl aarch64
 # ExcludeArch: i686 x86_64 ppc64 ppc64le armv7hl aarch64
 
-# get the proper build-sysbuild package from the repo, which
-# tracks in all the kernel-devel packages
 BuildRequires: kernel-devel, gcc, make
 # kmodtool does its magic here
 %{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
 %description
-Improved module driver for Logitech driving wheels.
+Improved Linux module driver for Logitech driving wheels.
+
+Thanks to Oleg Makarenko for adding support for the Logitech G923 Racing Wheel.
+
+Supported devices:
+
+Logitech WingMan Formula GP (without force feedback)
+Logitech WingMan Formula Force GP
+Logitech Driving Force
+Logitech MOMO Force Feedback Racing Wheel
+Logitech Driving Force Pro
+Logitech G25 Racing Wheel
+Logitech Driving Force GT
+Logitech G27 Racing Wheel
+Logitech G29 Driving Force (switch in PS3 mode)
+Logitech G923 Racing Wheel for PlayStation 4 and PC (046d:c267, 046d:c266)
+Logitech MOMO Racing
+Logitech Speed Force Wireless Wheel for Wii
+
+Differences with the in-tree module
+It has all the features in the in-kernel hid-logitech module and adds the
+following ones:
+
+Support for most effects defined in the Linux FF API (except inertia) rather
+than just constant the force effect.
+Asynchronous operations with realtime handling of effects.
+Rate limited FF updates with best possible latency.
+Tunable sprint, damper and friction effects gain.
+It can combine accelerator and clutch.
+Use the wheel leds as a FFBmeter to monitor clipping.
+Added a system gain setting that modulates the gain setting used by applications
+SYSFS entries for gain, autocenter, spring/damper/friction effect
+gain and FFBmeter
 
 %prep
 # error out if there was something wrong with kmodtool
@@ -52,7 +83,7 @@ done
 
 %build
 for kernel_version  in %{?kernel_versions} ; do
-    make V=1 %{?_smp_mflags} -C ${kernel_version##*___} M=${PWD}/_kmod_build_${kernel_version%%___*} modules
+    %make_build V=1 -C ${kernel_version##*___} M=${PWD}/_kmod_build_${kernel_version%%___*} modules
 done
 
 %install
@@ -65,12 +96,13 @@ done
 %{?akmod_install}
 
 %package common
-Summary: dummy package dependecy for akmod-new-lg4ff
-%description common
-akmod scrips requires a package with this name for userland components, but this module doesn't have any
+Summary: License and documentation for %{module}-kmod
+
 %files common
 %doc %{projname}-%{version}/README.md
 %license %{projname}-%{version}/LICENSE
+%description common
+License and documentation for %{module}-kmod
 %changelog
 * Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0-2
 - merge hid-logitech-new-common into main spec file
