@@ -34,7 +34,6 @@ BuildRequires: kernel-devel, gcc, make
 # kmodtool does its magic here
 %{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
-
 %description
 Improved module driver for Logitech driving wheels.
 
@@ -51,12 +50,10 @@ for kernel_version in %{?kernel_versions} ; do
     cp -a %{projname}-%{version} _kmod_build_${kernel_version%%___*}
 done
 
-
 %build
 for kernel_version  in %{?kernel_versions} ; do
     make V=1 %{?_smp_mflags} -C ${kernel_version##*___} M=${PWD}/_kmod_build_${kernel_version%%___*} modules
 done
-
 
 %install
 
@@ -70,9 +67,8 @@ done
 %package common
 Summary: dummy package dependecy for akmod-new-lg4ff
 %description common
-akmod scrips requires a package with this name for userland components, but this module doesnt have any
+akmod scrips requires a package with this name for userland components, but this module doesn't have any
 %files common
-
 
 %changelog
 * Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0-2
