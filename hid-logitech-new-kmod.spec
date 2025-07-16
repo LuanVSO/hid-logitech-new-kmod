@@ -15,7 +15,7 @@ Summary:        Improved module driver for Logitech driving wheels.
 Epoch:          0
 Group:          System Environment/Kernel
 
-License:        GPLv3
+License:        GPL-2.0-only
 URL:            https://github.com/berarma/new-lg4ff
 Source0:        %{url}/archive/v%{version}/%{projname}-%{version}.tar.gz
 
