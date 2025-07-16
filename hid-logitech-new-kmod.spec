@@ -79,6 +79,12 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%package common
+Summary: dummy package dependecy for akmod-new-lg4ff
+%description common
+akmod scrips requires a package with this name for userland components, but this module doesnt have any
+%files common
+
 
 %changelog
 * Wed Jul 16 2025 Luan Oliveira <luanv.oliveira@outlook.com> - 0.5.0
