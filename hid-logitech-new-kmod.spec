@@ -10,7 +10,7 @@
 Name:          %{module}-kmod
 
 Version:        0.5.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Improved module driver for Logitech driving wheels
 Epoch:          0
 Group:          System Environment/Kernel
@@ -111,6 +111,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Fri Jul 18 2025 Luan Vitor Simião oliveira <luanv.oliveira@outlook.com> 0.5.0-9
+- fix build (luanv.oliveira@outlook.com)
+
 * Fri Jul 18 2025 Luan Vitor Simião oliveira <luanv.oliveira@outlook.com> 0.5.0-8
 - use buildroot instead of / (luanv.oliveira@outlook.com)
 
