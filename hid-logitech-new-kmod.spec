@@ -37,11 +37,12 @@ BuildRequires: kernel-devel, gcc, make
 Summary: License and documentation for %{module}-kmod
 source1: modprobe-d-99-hid-logitech-blacklist.conf
 source2: modules-load-d-hid-logitech-new.conf
+BuildRequires: systemd-rpm-macros
 %files common
 %doc %{projname}-%{version}/README.md
 %license %{projname}-%{version}/LICENSE
-%{buildroot}%{_modprobedir}/98-hid-logitech-blacklist.conf
-%{buildroot}%{_modulesloaddir}/hid-logitech-new.conf
+%{_modprobedir}/98-hid-logitech-blacklist.conf
+%{_modulesloaddir}/hid-logitech-new.conf
 %description common
 Configuration, license and documentation for %{module}-kmod
 
