@@ -21,7 +21,7 @@ Source0:        %{url}/archive/v%{version}/%{projname}-%{version}.tar.gz
 
 BuildRequires: kmodtool, gcc
 Requires: akmods
-Provides: %{projname}
+Provides: %{projname} = %{version}-%{release}
 Obsoletes: %{projname} < 0.5.0
 # Verify that the package build for all architectures.
 # In most time you should remove the Exclusive/ExcludeArch directives
@@ -61,11 +61,11 @@ Support for most effects defined in the Linux FF API (except inertia) rather
 than just constant the force effect.
 Asynchronous operations with realtime handling of effects.
 Rate limited FF updates with best possible latency.
-Tunable sprint, damper and friction effects gain.
+configurable sprint, damper and friction effects gain.
 It can combine accelerator and clutch.
-Use the wheel leds as a FFBmeter to monitor clipping.
+Use the wheel led's as a FFBmeter to monitor clipping.
 Added a system gain setting that modulates the gain setting used by applications
-SYSFS entries for gain, autocenter, spring/damper/friction effect
+SYSFS entries for gain, auto center, spring/damper/friction effect
 gain and FFBmeter
 
 %prep
