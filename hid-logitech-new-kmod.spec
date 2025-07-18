@@ -33,6 +33,18 @@ BuildRequires: kernel-devel, gcc, make
 # kmodtool does its magic here
 %{expand:%(kmodtool --target %{_target_cpu} --repo rpmfusion --kmodname %{module} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null) }
 
+%package common
+Summary: License and documentation for %{module}-kmod
+source1: modprobe-d-99-hid-logitech-blacklist.conf
+source2: modules-load-d-hid-logitech-new.conf
+%files common
+%doc %{projname}-%{version}/README.md
+%license %{projname}-%{version}/LICENSE
+%{_modprobedir}/98-hid-logitech-blacklist.conf
+%{_modulesloaddir}/hid-logitech-new.conf
+%description common
+Configuration, license and documentation for %{module}-kmod
+
 %description
 Improved Linux module driver for Logitech driving wheels.
 
@@ -87,6 +99,8 @@ for kernel_version  in %{?kernel_versions} ; do
 done
 
 %install
+install -D -m 0644 %{SOURCE1} %{buildroot}%{_modprobedir}/98-hid-logitech-blacklist.conf
+install -D -m 0644 %{SOURCE2} %{buildroot}%{_modulesloaddir}/hid-logitech-new.conf
 
 for kernel_version in %{?kernel_versions}; do
     mkdir -p %{buildroot}%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
@@ -95,14 +109,6 @@ for kernel_version in %{?kernel_versions}; do
 done
 %{?akmod_install}
 
-%package common
-Summary: License and documentation for %{module}-kmod
-
-%files common
-%doc %{projname}-%{version}/README.md
-%license %{projname}-%{version}/LICENSE
-%description common
-License and documentation for %{module}-kmod
 %changelog
 * Thu Jul 17 2025 Luan Vitor Simião oliveira <luanv.oliveira@outlook.com> 0.5.0-5
 - rpmlint fixes (luanv.oliveira@outlook.com)
