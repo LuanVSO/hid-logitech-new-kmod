@@ -10,7 +10,7 @@
 Name:          %{module}-kmod
 
 Version:        0.5.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Improved module driver for Logitech driving wheels
 Epoch:          0
 Group:          System Environment/Kernel
@@ -110,6 +110,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Fri Jul 18 2025 Luan Vitor Simião oliveira <luanv.oliveira@outlook.com> 0.5.0-6
+- add modprobe config files to prevent upstream driver being used (luanv.oliveira@outlook.com)
+
 * Thu Jul 17 2025 Luan Vitor Simião oliveira <luanv.oliveira@outlook.com> 0.5.0-5
 - rpmlint fixes (luanv.oliveira@outlook.com)
 
