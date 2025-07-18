@@ -40,8 +40,8 @@ source2: modules-load-d-hid-logitech-new.conf
 %files common
 %doc %{projname}-%{version}/README.md
 %license %{projname}-%{version}/LICENSE
-/%{_modprobedir}/98-hid-logitech-blacklist.conf
-/%{_modulesloaddir}/hid-logitech-new.conf
+%{buildroot}%{_modprobedir}/98-hid-logitech-blacklist.conf
+%{buildroot}%{_modulesloaddir}/hid-logitech-new.conf
 %description common
 Configuration, license and documentation for %{module}-kmod
 
